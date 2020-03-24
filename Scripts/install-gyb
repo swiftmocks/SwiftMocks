@@ -1,0 +1,6 @@
+#!/bin/sh
+
+curl https://raw.githubusercontent.com/apple/swift/master/utils/gyb -s -o gyb
+curl https://raw.githubusercontent.com/apple/swift/master/utils/gyb.py -s -o gyb.py
+chmod +x gyb
+

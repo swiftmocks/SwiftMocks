@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# This script prints a list of all Builtin. and Swift._ types that are exported by the libswiftCore library
+nm -gj /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/iphonesimulator/libswiftCore.dylib | grep -E '(\$s)[^_]+Mn$' | xargs xcrun swift-demangle
+

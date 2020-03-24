@@ -1,0 +1,71 @@
+#!/bin/sh
+
+set -e 
+
+mkdir -p "$SRCROOT/Resources"
+: > Resources/ll-unfiltered.txt
+: > Resources/ll.txt
+: > Resources/sil.txt
+
+swiftc -emit-sil -module-name IR Source/Globals.swift -o Resources/Globals.sil
+swiftc -emit-ir -module-name IR Source/Globals.swift -o Resources/Globals.ll
+
+swiftc -emit-sil -module-name IR Source/Methods.swift -o Resources/Methods.sil
+swiftc -emit-ir -module-name IR Source/Methods.swift -o Resources/Methods.ll
+
+swiftc -emit-sil -module-name IR Source/Witnesses.swift -o Resources/Witnesses.sil
+swiftc -emit-ir -module-name IR Source/Witnesses.swift -o Resources/Witnesses.ll
+
+grep "^sil " Resources/Globals.sil |            `# only use lines that contain SIL function definitions` \
+    perl \
+        -pe 's/ {$//;'                          `# strip trailing { on those lines` \
+        -pe 's/.+@\$(\S+) : \$(.*)/$1\t$2/;'    `# find the name, output it as the first element, then tab, then whatever follows the name (i.e., signature)` \
+    >> Resources/sil.txt
+grep "^sil " Resources/Methods.sil | \
+    perl \
+        -pe 's/ {$//;' \
+        -pe 's/.+@\$(\S+) : \$(.*)/$1\t$2/;' \
+    >> Resources/sil.txt
+grep "^sil " Resources/Witnesses.sil | \
+    perl \
+        -pe 's/ {$//;' \
+        -pe 's/.+@\$(\S+) : \$(.*)/$1\t$2/;' \
+    >> Resources/sil.txt
+
+grep "^define" Resources/Globals.ll |                                   `# only use lines that contian IR function definitions` \
+    perl \
+        -pe 's/ #\d+ {//;'                                              `# strip trailing "#0 {" stuff` \
+        -pe 's/^ +//sg;'                                                `# strip leading spaces` \
+        -pe 's/(.*?) ?@"\$([^"]+)"(.*)/$2\t$1 $3/;'                     `# extract return value, name and params, then rearrange to have the name as the first element, followed by tab, then everything else` \
+    >> Resources/ll-unfiltered.txt
+grep "^define" Resources/Methods.ll | \
+    perl \
+        -pe 's/ #\d+ {//;' \
+        -pe 's/^ +//sg;' \
+        -pe 's/(.*?) ?@"\$([^"]+)"(.*)/$2\t$1 $3/;' \
+    >> Resources/ll-unfiltered.txt
+grep "^define" Resources/Witnesses.ll | \
+    perl \
+        -pe 's/ #\d+ {//;' \
+        -pe 's/^ +//sg;' \
+        -pe 's/(.*?) ?@"\$([^"]+)"(.*)/$2\t$1 $3/;' \
+    >> Resources/ll-unfiltered.txt
+
+# only keep the names that are interesting for tests
+cat Resources/ll-unfiltered.txt | grep \
+    -e "F\t" -e"FTW\t"          `# method` \
+    -e "FZ\t" -e "FZTW\t"       `# static method` \
+    -e "vg\t" -e "vgTW\t"       `# getter` \
+    -e "vgZ\t" -e "vgZTW\t"     `# static getter` \
+    -e "vs\t" -e "vsTW\t"       `# setter` \
+    -e "vsZ\t" -e "vsZTW\t"     `# static setter` \
+    -e "vM\t" -e "vMTW\t"       `# _modify coro` \
+    -e "vMZ\t" -e "vMZTW\t"     `# static _modify coro` \
+    -e "cig\t" -e "cigTW\t"     `# subscript getter` \
+    -e "cigZ\t" -e "cigZTW\t"   `# static subscript getter` \
+    -e "cis\t" -e "cisTW\t"     `# subscript setter` \
+    -e "cisZ\t" -e "cisZTW\t"   `# static subscript setter` \
+    -e "ciM\t" -e "ciMTW\t"     `# subscript _modify coro` \
+    -e "ciMZ\t" -e "ciMZTW\t"   `# static subscript _modify coro` \
+    > Resources/ll.txt
+

@@ -1,0 +1,6 @@
+[
+  {
+    "files": "**/*.swift",
+    "command": "swiftc -emit-sil -gnone -Xfrontend -parse-as-library -Xfrontend -enable-implicit-dynamic ${srcFile} > ${srcFile}.sil_; ./.demangle-in-file ${srcFile}.sil_ > ${srcFile}.sil; rm ${srcFile}.sil_; swiftc -emit-ir -gnone -Xfrontend -parse-as-library -Xfrontend -enable-implicit-dynamic ${srcFile} > ${srcFile}.ll; swiftc -emit-assembly -gnone -Xfrontend -parse-as-library -Xfrontend -enable-implicit-dynamic -O ${srcFile} > ${srcFile}.s"
+  }
+]

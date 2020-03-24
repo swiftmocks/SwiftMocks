@@ -1,0 +1,6 @@
+#!/bin/sh
+
+clang -E -P -I ../../../SwiftProject/swift/include/ -D'TYPE(Name,Super)=Name' -D'UNCHECKED_TYPE(Name,Super)=' -D'SUGARED_TYPE(Name,Super)=' TypeNodes.h | \
+  perl -ne 'print "$1\n" if /(\w+)/' > \
+  ../../Source/Intercept/Extract/AST/Types/TypeKind.swift.gyb.input
+

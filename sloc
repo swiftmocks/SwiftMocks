@@ -1,0 +1,3 @@
+#!/bin/sh
+
+find ./Source/ ./Tests/ ./TestFrameworks/  -name '*.swift' | xargs cat | sed '/^\s*$/d' | sed '/^\s*\/\//d' |  wc -l

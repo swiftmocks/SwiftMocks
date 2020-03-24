@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "A3B451FA-EF86-408A-B9E9-3C3559BF97BE"
+   type = "4"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            uuid = "38368793-0F71-489A-B9E5-EB20A159B3D2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "swift_retain"
+            moduleName = "">
+            <Locations>
+               <Location
+                  uuid = "38368793-0F71-489A-B9E5-EB20A159B3D2 - 1367c310812d7911"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "swift_retain"
+                  moduleName = "libswiftCore.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergiy/Projects/swift-source-5.1/swift/stdlib/public/runtime/HeapObject.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "296"
+                  endingLineNumber = "296"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            uuid = "95D9BBA1-E0EB-487E-9FFD-40AA680A2E14"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "swift_dynamicCast"
+            moduleName = "">
+            <Locations>
+               <Location
+                  uuid = "95D9BBA1-E0EB-487E-9FFD-40AA680A2E14 - e79ccb2a507b464c"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "swift_dynamicCast"
+                  moduleName = "libswiftCore.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  offsetFromSymbolStart = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

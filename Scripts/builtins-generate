@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# This script outputs a list of all Builtin types that are exported by the libswiftCore library, in the format of `symbol:name`. See OpaqueMetadata+Builtins+... for more info.
+XCODE=`find /Applications -name Xcode*.app -type d -maxdepth 1 | head -n 1`
+SWIFTCORE=`find $XCODE/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/*/iphonesimulator -name libswiftCore.dylib`
+if [ -z "$XCODE" ] || [ -z "$SWIFTCORE" ]; then
+  echo "Xcode not found"
+  exit 1
+fi
+echo "Using $SWIFTCORE" 1>&2
+nm -gj $SWIFTCORE | grep -E '\$sB.+N$' | xargs xcrun swift-demangle | sed -E "s/^([^[:space:]]+).*Builtin\.(.+)$/\1:\2/g" > ../Source/ABI/OpaqueMetadata+Builtins+Extensions.swift.gyb.input
+
