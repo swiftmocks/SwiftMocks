@@ -15,6 +15,8 @@
 // Copyright © 2019-2020, Sergiy Drapiko
 // Copyright © 2020, SwiftMocks project contributors
 
+#ifdef __x86_64__
+
 .set L_bytesPerTrampolineSlot,      (L_trampolineEnd - _SwiftInternals$trampoline) / NUMBER_OF_TRAMPOLINE_SLOTS
 
 .const
@@ -137,3 +139,5 @@ L_assumes_8_bytes:
 
 L_tailcall:
     jmpq    *%r11
+
+#endif

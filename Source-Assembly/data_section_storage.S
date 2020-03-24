@@ -17,6 +17,8 @@
 
 // Reserves space in .data for runtime ProtocolConformanceDescriptor instantiations
 
+#ifdef __x86_64__
+
 .const
 
 .globl _SwiftInternals$dataSectionStorageSize
@@ -31,3 +33,5 @@ _SwiftInternals$dataSectionStorage:
 .rept DATA_SECTION_STORAGE_SIZE_KB * 1024
     .byte 0
 .endr
+
+#endif
